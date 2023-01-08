@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from objects.models import Objects, Object_types, Tree, Tree_types_connect
-from objects.serializers import ObjectsSerializer, Object_typesSerializer
+from objects.serializers import ObjectsSerializer, Object_typesSerializer 
 
 
 # Создание типа объекта
@@ -19,13 +19,12 @@ from objects.serializers import ObjectsSerializer, Object_typesSerializer
 def objects_list(request):
     if request.method == 'GET':
         objects = Objects.objects.all()
-
-        title = request.GET.get('title', None)
+        title = request.data.get('title')
+        logger.warning(title)
         if title is not None:
-            tutorials = tutorials.filter(title__icontains=title)
-
+            objects = objects.filter(title__icontains=title)
         objects_serializer = ObjectsSerializer(objects, many=True)
-        return JsonResponse(objects_serializer.data, safe=False)
+        return JsonResponse(objects_serializer.data,  safe=False)
 
     elif request.method == 'POST':
         object_data = JSONParser().parse(request)
