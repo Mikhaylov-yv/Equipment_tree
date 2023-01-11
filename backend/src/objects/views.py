@@ -31,10 +31,11 @@ def objects_list(request):
         objects_serializer = ObjectsSerializer(data=object_data)
         logger.warning('Создание объекта')
         logger.warning(object_data)
-        if objects_serializer.is_valid():
-            objects_serializer.save()
-            return JsonResponse(objects_serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(objects_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
+        # if objects_serializer.is_valid():
+        #     objects_serializer.save()
+        #     return JsonResponse(objects_serializer.data, status=status.HTTP_201_CREATED)
+        # return JsonResponse(objects_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST', 'DELETE'])
