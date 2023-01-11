@@ -31,6 +31,21 @@ def objects_list(request):
         objects_serializer = ObjectsSerializer(data=object_data)
         logger.warning('Создание объекта')
         logger.warning(object_data)
+        logger.warning(object_data['type'])
+        # logger.warning(objects_serializer.is_valid())
+        type_short_title = object_data['type']
+        types = Object_types.objects.all()
+        # Если объекты с таким типом не найденны
+        if len(types.filter(short_title=object_data['type']))==0:
+            # Создать новый тип
+            logger.warning('Создание типа объекта')
+            new_type = Object_types(short_title=type_short_title, title=type_short_title)
+            new_type.save()
+            type_id = new_type.id
+            logger.warning(f'Создан новый тип id {type_id}')
+            # Создать объект
+            pass
+        # Если такие объекты есть указать его id
         return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
         # if objects_serializer.is_valid():
         #     objects_serializer.save()
