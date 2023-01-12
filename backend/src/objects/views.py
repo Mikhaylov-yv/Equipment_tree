@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from objects.models import Objects, Object_types, Tree, Tree_types_connect
-from objects.serializers import ObjectsSerializer, Object_typesSerializer 
+from objects.serializers import ObjectsSerializer, POST_ObjectsSerializer, Object_typesSerializer 
 
 
 # Создание типа объекта
@@ -28,25 +28,45 @@ def objects_list(request):
 
     elif request.method == 'POST':
         object_data = JSONParser().parse(request)
-        objects_serializer = ObjectsSerializer(data=object_data)
-        logger.warning('Создание объекта')
+        objects_serializer = POST_ObjectsSerializer(data=object_data)
+        if ~objects_serializer.is_valid():
+            return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
         logger.warning(object_data)
-        logger.warning(object_data['type'])
+        logger.warning(object_data['type_short_title'])
         # logger.warning(objects_serializer.is_valid())
-        type_short_title = object_data['type']
+        type_short_title = object_data['type_short_title']
         types = Object_types.objects.all()
+        logger.warning(types)
+        # Если такие объекты есть указать его id
+        type = types.objects(short_title=type_short_title)
+        
         # Если объекты с таким типом не найденны
-        if len(types.filter(short_title=object_data['type']))==0:
+        if len(type)==0:
             # Создать новый тип
             logger.warning('Создание типа объекта')
             new_type = Object_types(short_title=type_short_title, title=type_short_title)
+            type = [new_type]
             new_type.save()
             type_id = new_type.id
             logger.warning(f'Создан новый тип id {type_id}')
-            # Создать объект
-            pass
-        # Если такие объекты есть указать его id
-        return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            type_id = type['id']
+        # Создать объект
+        logger.warning('Создание объекта')
+        logger.warning(object_data['title'], object_data['description'], type_id)
+        new_object = Objects(
+            title=object_data['title'],
+            description=object_data['description'], 
+            type=type_id
+            )
+            
+        try:
+            Objects.objects.create(new_object)
+            return JsonResponse({}, status=status.HTTP_201_CREATED)
+        except:
+            return JsonResponse(objects_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
         # if objects_serializer.is_valid():
         #     objects_serializer.save()
         #     return JsonResponse(objects_serializer.data, status=status.HTTP_201_CREATED)
