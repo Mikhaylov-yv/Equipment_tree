@@ -5,7 +5,7 @@ class Object_types(models.Model):
     title = models.CharField(max_length=70, unique=True, default=short_title)
 
     def __str__(self):
-        return '%d: %s' % (self.short_title, self.title)
+        return self.short_title
 
 
 class Objects(models.Model):
@@ -14,13 +14,20 @@ class Objects(models.Model):
     type = models.ForeignKey(Object_types, on_delete=models.CASCADE, related_name='object_type')
 
     def __str__(self):
-        return f"{self.id}, {self.title}, {self.description}, {self.type}"
+        return self.title
 
 class Tree_types_connect(models.Model):
     short_title = models.CharField(max_length=20, unique=True, default='')
     title = models.CharField(max_length=70, unique=True, default=short_title)
+    
+    def __str__(self):
+        return self.title
 
 class Tree(models.Model):
     parent = models.ForeignKey(Objects, related_name='parent_in_Objects',  on_delete=models.CASCADE)
     child = models.ForeignKey(Objects, related_name='child_in_Objects', on_delete=models.CASCADE)
     type = models.ForeignKey(Tree_types_connect, on_delete=models.CASCADE)
+    number = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.parent.title
