@@ -2,32 +2,35 @@ from django.contrib import admin
 
 from .models import *
 
-class Object_typesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'short_title')
-    list_display_links = ('id', 'title')
-    search_fields = ('title', 'short_title')
+class StructurElementsTypesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'short_name', 'name')
+    list_display_links = ('id',)
+    search_fields = ('short_name', 'name')
 
-class ObjectsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'description', 'type')
-    list_display_links = ('id', 'title')
-    search_fields = ('title',)
+class StructurElementsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'draw_num', 'name', 'description', 'type')
+    list_display_links = ('id',)
 
-class Tree_types_connectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'short_title', 'title')
-    list_display_links = ('id', 'short_title')
-    search_fields = ('short_title', 'title')
+class TypeConTreeStructurAdmin(admin.ModelAdmin):
+    list_display = ('id',)
+    list_display_links = ('id',)
 
-class TreeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'parent', 'child', 'number', 'type')
-    list_display_links = ('id', 'parent', 'child')
-    search_fields = ('parent', 'child')
-    list_editable = ('number',)
+class TreeStructurAdmin(admin.ModelAdmin):
+    list_display = ('id', 'parent','child', 'type', 'number')
+    list_display_links = ('id',)
+
+class InstancesElementAdmin(admin.ModelAdmin):
+    list_display = ('id',)
+    list_display_links = ('id',)
+
+class TreeElemrntsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'element', 'parent', 'type')
+    list_display_links = ('id',)
 
 
-
-
-
-admin.site.register(Object_types, Object_typesAdmin)
-admin.site.register(Objects, ObjectsAdmin)
-admin.site.register(Tree_types_connect, Object_typesAdmin)
-admin.site.register(Tree, TreeAdmin)
+admin.site.register(StructurElementsTypes, StructurElementsTypesAdmin)
+admin.site.register(StructurElements, StructurElementsAdmin)
+admin.site.register(TypeConTreeStructur, TypeConTreeStructurAdmin)
+admin.site.register(TreeStructur, TreeStructurAdmin)
+admin.site.register(InstancesElement, InstancesElementAdmin)
+admin.site.register(TreeElemrnts, TreeElemrntsAdmin)
