@@ -2,3 +2,4 @@ backend/.venv
 **/__pycache__
 frontend/angular-15-crud/.angular
 frontend/angular-15-crud/node_modules
+.idea/
