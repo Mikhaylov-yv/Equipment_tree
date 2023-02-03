@@ -1,5 +1,17 @@
 # Инструмент построения деревьев оборудования
 
+## Django
+
+Выгрузка дампа базы в json
+```
+docker exec -i equipment_tree_backend_1 python manage.py  > python manage.py dumpdata db.json
+```
+
+Загрузка дампа базы json
+```
+cat ./db.json | docker exec -i equipment_tree_backend_1 python manage.py  loaddata --format=json -
+```
+
 ## API
 
 ### api/objects
