@@ -21,7 +21,7 @@ class StructurElements(models.Model):
          related_name='object_type')
 
     def __str__(self):
-        return f"{self.draw_num} {self.name}"
+        return f"{self.id} {self.draw_num} {self.name}"
     class Meta:
         verbose_name = 'Элементы конструкции'
         verbose_name_plural = verbose_name
@@ -40,10 +40,10 @@ class TreeStructur(models.Model):
     parent = models.ForeignKey(StructurElements, related_name='parent_in_Objects',  on_delete=models.CASCADE)
     child = models.ForeignKey(StructurElements, related_name='child_in_Objects', on_delete=models.CASCADE)
     type = models.ForeignKey(TypeConTreeStructur, on_delete=models.CASCADE)
-    number = models.IntegerField(default=0)
+    number = models.IntegerField(default=1)
 
     def __str__(self):
-        return self.parent.title
+        return self.parent.name
 
     class Meta:
         verbose_name = 'Конструктивное дерево'

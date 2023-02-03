@@ -18,6 +18,7 @@ class TypeConTreeStructurAdmin(admin.ModelAdmin):
 class TreeStructurAdmin(admin.ModelAdmin):
     list_display = ('id', 'parent','child', 'type', 'number')
     list_display_links = ('id',)
+    list_filter = ('parent', 'type')
 
 class InstancesElementAdmin(admin.ModelAdmin):
     list_display = ('id',)

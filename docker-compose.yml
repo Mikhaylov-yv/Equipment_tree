@@ -25,6 +25,8 @@ services:
       POSTGRES_DB: app_db
       POSTGRES_USER: django_api
       POSTGRES_PASSWORD: Aa12345!
+    ports:
+      - 5422:5432
     volumes:
       - ./database/data:/var/lib/postgresql/data
     networks:
