@@ -4,7 +4,7 @@
 
 Выгрузка дампа базы в json
 ```
-docker exec -i equipment_tree_backend_1 python manage.py  > python manage.py dumpdata db.json
+docker exec -i equipment_tree_backend_1 python manage.py dumpdata > db.json
 ```
 
 Загрузка дампа базы json
